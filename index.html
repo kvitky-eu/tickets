@@ -214,23 +214,25 @@
         </div>
         
         <button type="submit" class="btn-submit">
-            <span>Надіслати заявку</span>
-            <i class="fa-solid fa-paper-plane"></i>
+            <span>Оформити через Telegram</span>
+            <i class="fa-brands fa-telegram"></i>
         </button>
     </form>
 
     <!-- Блок швидкого зв'язку -->
-    <div class="cta-title">Або забронюйте напряму через месенджери:</div>
+    <div class="cta-title">Або напишіть нам напряму:</div>
     
+    <!-- Пряме посилання на Telegram за номером телефону -->
     <a href="https://t.me" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
-        <span>Написати v Telegram</span>
+        <span>Написати в Telegram</span>
     </a>
 
-    <a href="viber://chat?number=%2B380995674703" target="_blank" class="btn btn-viber">
+    <!-- Кнопка швидкої заявки для Viber (генерує шаблонний текст на смартфонах) -->
+    <button onclick="sendQuickViber()" class="btn btn-viber">
         <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
-        <span>Написати в Viber</span>
-    </a>
+        <span>Швидка заявка у Viber</span>
+    </button>
 
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
@@ -243,11 +245,9 @@
 </div>
 
 <script>
+    // Обробка головної форми пошуку (надсилає заповнені дані в Telegram)
     document.getElementById('tgBusForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
-        const TELEGRAM_TOKEN = '9262418807:AAElDN9TRORbpEQrGzZO-I4lwhU-QQ4DiLs';
-        const TELEGRAM_CHAT_ID = '8172069744';
 
         const from = document.getElementById('from').value;
         const to = document.getElementById('to').value;
@@ -257,32 +257,21 @@
         const dateObj = new Date(date);
         const formattedDate = dateObj.toLocaleDateString('uk-UA');
 
-        const messageText = `🔔 Нова заявка на рейс:\n📌 Звідки: ${from}\n📍 Куди: ${to}\n📅 Дата: ${formattedDate}\n📞 Телефон: ${phone}`;
+        const messageText = `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${from}\n• Куди: ${to}\n• Дата: ${formattedDate}\n• Мій телефон: ${phone}`;
+        const telegramUrl = `https://t.me?text=${encodeURIComponent(messageText)}`;
 
-        // Використовуємо надійний CORS-пересилач для обходу українських блокувань api.telegram.org
-        const targetUrl = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
-        const proxyUrl = `https://herokuapp.com{targetUrl}`;
+        window.open(telegramUrl, '_blank');
+    });
 
-        fetch(proxyUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: messageText
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.ok || (data.status && data.status.url)) {
-                alert('Дякуємо! Заявку успішно надіслано.');
-                document.getElementById('tgBusForm').reset();
-                document.getElementById('phone').value = '+380';
-            } else {
-                // Якщо сервер перевантажений, надсилаємо прямим методом як запасний варіант
-                sendDirectFallback(targetUrl, TELEGRAM_CHAT_ID, messageText);
-            }
-        })
-        .catch(error => {
+    // Окрема функція для кнопки Viber (підставляє загальний шаблон тексту)
+    function sendQuickViber() {
+        const quickText = "Вітаю! Мене цікавлять квитки на автобус до Європи. Допоможіть, будь ласка, підібрати рейс.";
+        const encodedText = encodeURIComponent(quickText);
+        
+        // Універсальний спосіб відкриття Viber з текстом чернетки
+        window.location.href = `viber://chat?number=%2B380995674703&draft=${encodedText}`;
+    }
+</script>
+
+</body>
+</html>
