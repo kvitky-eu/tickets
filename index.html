@@ -81,6 +81,10 @@
         .input-group input:focus {
             border-color: #ffd43b;
         }
+        .input-group input.error-field {
+            border-color: #ff4d4d !important;
+            background-color: #2b1c2d;
+        }
 
         /* Кнопки месенджерів */
         .cta-title {
@@ -162,7 +166,6 @@
     <!-- Варіанти відправки даних -->
     <div class="cta-title">Надіслати заповнені дані в месенджер:</div>
     
-    <!-- Чисті HTML-посилання без ризику блокування браузерами -->
     <a href="https://t.me" id="tgPersonalBtn" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Telegram</span>
@@ -191,7 +194,6 @@
         var rawDate = document.getElementById('textDate').value || '...';
         var clientPhone = document.getElementById('textPhone').value.trim() || '+380';
 
-        // Форматування дати з РРРР-ММ-ДД у ДД.ММ.РРРР
         var cleanDate = rawDate;
         if (rawDate.indexOf('-') !== -1) {
             var parts = rawDate.split('-');
@@ -200,29 +202,26 @@
             }
         }
 
-        // Текст для Telegram (розгорнутий)
-        var tgMessage = "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + cleanDate + "\n• Телефон: " + clientPhone;
-        
-        // Короткий формат для Viber (гарантує 100% проходження без обрізань номера)
-        var viberMessage = "Рейс: " + fromCity + " - " + toCity + ". Дата: " + cleanDate + ". Мій тел: " + clientPhone;
+        var tgMessage = "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + cleanDate + "\n• Мій телефон: " + clientPhone;
+        var viberMessage = "Рейс: " + fromCity + " - " + toCity + ". Дата: " + cleanDate + ". Тел: " + clientPhone;
 
-        // Оновлюємо посилання прямо "на льоту"
         document.getElementById('tgPersonalBtn').href = 'https://t.me?text=' + encodeURIComponent(tgMessage);
         document.getElementById('viberPersonalBtn').href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(viberMessage);
     }
 
-    // Запускаємо один раз при завантаженні сторінки
     updateLinks();
 </script>
 
-<!-- Підключення віджета Smartsupp -->
+<!-- Фінальний робочий скрипт вашого особистого чату Smartsupp -->
 <script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = '4ca860b001099684dfad8085fc5f6a9e10ff6be1';
-    window.smartsupp||(function(d){
-      var s=d.createElement('script');s.type='text/javascript';s.charset='utf-8';
-      s.src='https://smartsuppchat.com;
-    })(document);
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
 </script>
 
 </body>
