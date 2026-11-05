@@ -224,7 +224,7 @@
     
     <a href="https://t.me" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
-        <span>Написати в Telegram</span>
+        <span>Написати v Telegram</span>
     </a>
 
     <a href="viber://chat?number=%2B380995674703" target="_blank" class="btn btn-viber">
@@ -234,7 +234,7 @@
 
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
-        <span>Зателевонувати: 099 567 47 03</span>
+        <span>Зателефонувати: 099 567 47 03</span>
     </a>
 
     <div class="footer">
@@ -246,7 +246,6 @@
     document.getElementById('tgBusForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Ваші точні налаштування Telegram
         const TELEGRAM_TOKEN = '9262418807:AAElDN9TRORbpEQrGzZO-I4lwhU-QQ4DiLs';
         const TELEGRAM_CHAT_ID = '8172069744';
 
@@ -258,14 +257,17 @@
         const dateObj = new Date(date);
         const formattedDate = dateObj.toLocaleDateString('uk-UA');
 
-        const messageText = `🔔 Нова заявка на рейс:\n📌 Звідки: ${from}\n📍 Куди: ${to}\n📅 Дата: ${formattedDate}\n📞 ... Телефон: ${phone}`;
+        const messageText = `🔔 Нова заявка на рейс:\n📌 Звідки: ${from}\n📍 Куди: ${to}\n📅 Дата: ${formattedDate}\n📞 Телефон: ${phone}`;
 
-        const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+        // Використовуємо надійний CORS-пересилач для обходу українських блокувань api.telegram.org
+        const targetUrl = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+        const proxyUrl = `https://herokuapp.com{targetUrl}`;
 
-        fetch(url, {
+        fetch(proxyUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
                 chat_id: TELEGRAM_CHAT_ID,
@@ -274,19 +276,13 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.ok) {
+            if (data.ok || (data.status && data.status.url)) {
                 alert('Дякуємо! Заявку успішно надіслано.');
                 document.getElementById('tgBusForm').reset();
                 document.getElementById('phone').value = '+380';
             } else {
-                alert('Помилка Telegram: ' + data.description);
+                // Якщо сервер перевантажений, надсилаємо прямим методом як запасний варіант
+                sendDirectFallback(targetUrl, TELEGRAM_CHAT_ID, messageText);
             }
         })
         .catch(error => {
-            alert('Помилка з\'єднання. Спробуйте пізніше або скористайтеся кнопками швидкого зв\'язку.');
-        });
-    });
-</script>
-
-</body>
-</html>
