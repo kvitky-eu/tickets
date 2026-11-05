@@ -190,7 +190,8 @@
         
         <div class="input-group">
             <label for="date">Дата поїздки:</label>
-            <input type="date" id="date" required>
+            <!-- Змінено на текстовий тип з викликом календаря для 100% сумісності -->
+            <input type="text" id="date" placeholder="ДД.ММ.РРРР (або оберіть)" onfocus="(this.type='date')" onblur="(this.value ? this.type='date' : this.type='text')" required>
         </div>
 
         <div class="input-group">
@@ -231,25 +232,31 @@
 </div>
 
 <script>
-    // Функція збору та генерації тексту заявки
+    // Полегшена функція збору тексту без жорстких обмежень браузера
     function checkAndGetText() {
         const from = document.getElementById('from').value.trim();
         const to = document.getElementById('to').value.trim();
-        const date = document.getElementById('date').value;
+        const rawDate = document.getElementById('date').value;
         const phone = document.getElementById('phone').value.trim();
 
-        if (!from || !to || !date || !phone || phone === "+380") {
-            alert("Будь ласка, спочатку заповніть усі поля форми!");
+        if (!from || !to || !rawDate || !phone || phone === "+380") {
+            alert("Будь ласка, заповніть усі поля форми!");
             return null;
         }
 
-        const dateObj = new Date(date);
-        const formattedDate = dateObj.toLocaleDateString('uk-UA');
+        // Розумне форматування дати: якщо браузер повернув РРРР-ММ-ДД, перевертаємо у звичний вигляд
+        let displayDate = rawDate;
+        if (rawDate.includes('-')) {
+            const parts = rawDate.split('-');
+            if (parts.length === 3) {
+                displayDate = `${parts[2]}.${parts[1]}.${parts[0]}`;
+            }
+        }
 
-        return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${from}\n• Куди: ${to}\n• Дата: ${formattedDate}\n• Мій телефон: ${phone}`;
+        return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${from}\n• Куди: ${to}\n• Дата: ${displayDate}\n• Мій телефон: ${phone}`;
     }
 
-    // 1. Обробка головної жовтої кнопки (відкриває Telegram з текстом)
+    // 1. Обробка головної жовтої кнопки
     document.getElementById('busSearchForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const text = checkAndGetText();
