@@ -155,18 +155,13 @@
 
 <div class="main-card">
     
-    <!-- Форма підбору квитків (надсилає дані на valval2701@gmail.com через FormSubmit) -->
-    <form class="search-form" id="busSearchForm" action="https://formsubmit.co" method="POST">
+    <!-- Форма підбору квитків -->
+    <form class="search-form" id="tgBusForm">
         <div class="form-title">Швидкий підбір рейсу</div>
-        
-        <!-- Приховані налаштування для сервісу відправки пошти -->
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="Нова заявка на підбір рейсу!">
-        <input type="hidden" name="_template" value="table">
         
         <div class="input-group">
             <label for="from">Місто відправлення (Україна):</label>
-            <input type="text" id="from" name="Звідки (Україна)" placeholder="Наприклад: Київ, Львів" list="ukraine-cities" required>
+            <input type="text" id="from" placeholder="Наприклад: Київ, Львів" list="ukraine-cities" required>
             <datalist id="ukraine-cities">
                 <option value="Київ">
                 <option value="Львів">
@@ -188,7 +183,7 @@
         
         <div class="input-group">
             <label for="to">Місто прибуття (Європа):</label>
-            <input type="text" id="to" name="Куди (Європа)" placeholder="Наприклад: Варшава, Берлін" list="europe-cities" required>
+            <input type="text" id="to" placeholder="Наприклад: Варшава, Берлін" list="europe-cities" required>
             <datalist id="europe-cities">
                 <option value="Варшава (Польща)">
                 <option value="Краків (Польща)">
@@ -209,31 +204,29 @@
         
         <div class="input-group">
             <label for="date">Дата поїздки:</label>
-            <input type="date" id="date" name="Дата поїздки" required>
+            <input type="date" id="date" required>
         </div>
 
-        <!-- Поле телефону клієнта для зв'язку -->
+        <!-- Поле телефону клієнта -->
         <div class="input-group">
             <label for="phone">Ваш номер телефону:</label>
-            <input type="tel" id="phone" name="Телефон клієнта" placeholder="+380" value="+380" required>
+            <input type="tel" id="phone" placeholder="+380" value="+380" required>
         </div>
         
         <button type="submit" class="btn-submit">
             <span>Надіслати заявку</span>
-            <i class="fa-solid fa-envelope"></i>
+            <i class="fa-solid fa-paper-plane"></i>
         </button>
     </form>
 
     <!-- Блок швидкого зв'язку -->
     <div class="cta-title">Або забронюйте напряму через месенджери:</div>
     
-    <!-- Пряме посилання на Telegram за номером телефону -->
     <a href="https://t.me" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Написати в Telegram</span>
     </a>
 
-    <!-- Пряме посилання на Viber -->
     <a href="viber://chat?number=%2B380995674703" target="_blank" class="btn btn-viber">
         <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
         <span>Написати в Viber</span>
@@ -248,6 +241,49 @@
         Бронювання безкоштовне • Оплата при посадці
     </div>
 </div>
+
+<script>
+    document.getElementById('tgBusForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // НАЛАШТУВАННЯ TELEGRAM:
+        const TELEGRAM_TOKEN = '9262418807:AAElDN9TRORbpEQrGzZO-I4lwhU-QQ4DiLs';
+        const TELEGRAM_CHAT_ID = '8172069744';
+
+        const from = document.getElementById('from').value;
+        const to = document.getElementById('to').value;
+        const date = document.getElementById('date').value;
+        const phone = document.getElementById('phone').value;
+
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('uk-UA');
+
+        const messageText = `🔔 Нова заявка на рейс:\n📌 Звідки: ${from}\n📍 Куди: ${to}\n📅 Дата: ${formattedDate}\n📞 Телефон: ${phone}`;
+
+        const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: messageText
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Дякуємо! Заявку успішно надіслано.');
+                document.getElementById('tgBusForm').reset();
+                document.getElementById('phone').value = '+380';
+            } else {
+                alert('Помилка відправки. Спробуйте скористатися кнопками месенджерів нижче.');
+            }
+        })
+        .catch(error => {
+            alert('Помилка мережі. Спробуйте пізніше.');
+        });
+    });
+</script>
 
 </body>
 </html>
