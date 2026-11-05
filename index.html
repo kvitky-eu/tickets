@@ -144,22 +144,22 @@
         
         <div class="input-group">
             <label for="from">Місто відправлення (Україна):</label>
-            <input type="text" id="from" placeholder="Наприклад: Київ, Львів">
+            <input type="text" id="textFrom" placeholder="Наприклад: Київ, Львів">
         </div>
         
         <div class="input-group">
             <label for="to">Місто прибуття (Європа):</label>
-            <input type="text" id="to" placeholder="Наприклад: Варшава, Берлін">
+            <input type="text" id="textTo" placeholder="Наприклад: Варшава, Берлін">
         </div>
         
         <div class="input-group">
             <label for="date">Дата поїздки:</label>
-            <input type="text" id="date" placeholder="Оберіть або введіть дату" onfocus="(this.type='date')" onblur="(this.value ? this.type='date' : this.type='text')">
+            <input type="text" id="textDate" placeholder="Оберіть або введіть дату" onfocus="(this.type='date')" onblur="(this.value ? this.type='date' : this.type='text')">
         </div>
 
         <div class="input-group">
             <label for="phone">Ваш номер телефону:</label>
-            <input type="tel" id="phone" placeholder="+380" value="+380">
+            <input type="tel" id="textPhone" placeholder="+380" value="+380">
         </div>
     </div>
 
@@ -191,40 +191,46 @@
 
 <script>
     function buildMessage() {
-        const fromInput = document.getElementById('from');
-        const toInput = document.getElementById('to');
-        const dateInput = document.getElementById('date');
-        const phoneInput = document.getElementById('phone');
+        var fromInput = document.getElementById('textFrom');
+        var toInput = document.getElementById('textTo');
+        var dateInput = document.getElementById('textDate');
+        var phoneInput = document.getElementById('textPhone');
 
-        // Скидаємо попереднє червоне підсвічування помилок
         fromInput.classList.remove('error-field');
         toInput.classList.remove('error-field');
         dateInput.classList.remove('error-field');
         phoneInput.classList.remove('error-field');
 
-        const fromCity = fromInput.value.trim();
-        const toCity = toInput.value.trim();
-        const rawDate = dateInput.value;
-        const clientPhone = phoneInput.value.trim();
+        var fromCity = fromInput.value.trim();
+        var toCity = toInput.value.trim();
+        var rawDate = dateInput.value;
+        var clientPhone = phoneInput.value.trim();
 
         if (!fromCity) { fromInput.classList.add('error-field'); alert("Будь ласка, вкажіть місто відправлення!"); return null; }
         if (!toCity) { toInput.classList.add('error-field'); alert("Будь ласка, вкажіть місто прибуття!"); return null; }
         if (!rawDate) { dateInput.classList.add('error-field'); alert("Будь ласка, оберіть дату поїздки!"); return null; }
         
-        // Перевірка на недописаний номер телефону (+380 + 9 цифр = 13 символів)
         if (!clientPhone || clientPhone === "+380" || clientPhone.length < 13) {
             phoneInput.classList.add('error-field');
             alert("Будь ласка, введіть повний номер телефону (наприклад: +380991234567)!");
             return null;
         }
 
-        // Повністю виправлене та чисте зклеювання рядків за допомогою оператора +
-        return "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + rawDate + "\n• Мій телефон: " + clientPhone;
+        // Надійний і простий спосіб розвернути дату РРРР-ММ-ДД у ДД.ММ.РРРР
+        var cleanDate = rawDate;
+        if (rawDate.indexOf('-') !== -1) {
+            var parts = rawDate.split('-');
+            if (parts.length === 3) {
+                cleanDate = parts[2] + '.' + parts[1] + '.' + parts[0];
+            }
+        }
+
+        return "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + cleanDate + "\n• Мій телефон: " + clientPhone;
     }
 
     // Синя кнопка Telegram
     document.getElementById('tgPersonalBtn').addEventListener('click', function() {
-        const text = buildMessage();
+        var text = buildMessage();
         if (text) {
             window.open('https://t.me' + encodeURIComponent(text), '_blank');
         }
@@ -232,7 +238,7 @@
 
     // Фіолетова кнопка Viber
     document.getElementById('viberPersonalBtn').addEventListener('click', function() {
-        const text = buildMessage();
+        var text = buildMessage();
         if (text) {
             window.location.href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(text);
         }
