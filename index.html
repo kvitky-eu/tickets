@@ -81,6 +81,10 @@
         .input-group input:focus {
             border-color: #ffd43b;
         }
+        .input-group input.error-field {
+            border-color: #ff4d4d !important;
+            background-color: #2b1c2d;
+        }
 
         /* Кнопки месенджерів */
         .cta-title {
@@ -191,10 +195,10 @@
         var clientPhone = document.getElementById('textPhone').value.trim() || '+380';
 
         var cleanDate = rawDate;
+        // Надійне перевертання дати без ризику зламати JS
         if (rawDate.indexOf('-') !== -1) {
             var splitted = rawDate.split('-');
             if (splitted.length === 3) {
-                // ПРАВИЛЬНЕ СКЛЕЮВАННЯ ДАТИ БЕЗ ПОМИЛОК
                 cleanDate = splitted[2] + '.' + splitted[1] + '.' + splitted[0];
             }
         }
@@ -209,7 +213,7 @@
     updateLinks();
 </script>
 
-<!-- Скрипт чату Smartsupp з виправленим ключем та українською мовою -->
+<!-- Скрипт чату Smartsupp з вашим особистим ключем та українською мовою -->
 <script type="text/javascript">
 var _smartsupp = _smartsupp || {};
 _smartsupp.key = '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8';
