@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
+    <!-- Підключення сучасних іконок Font Awesome -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -27,6 +28,7 @@
             padding: 20px;
         }
 
+        /* Напівпрозорий блок-контейнер поверх фону */
         .main-card {
             background: rgba(22, 58, 117, 0.94); 
             backdrop-filter: blur(10px); 
@@ -40,6 +42,7 @@
             text-align: center;
         }
         
+        /* Стилі форми пошуку */
         .search-form {
             background: rgba(13, 36, 77, 0.85);
             padding: 20px;
@@ -81,6 +84,7 @@
             border-color: #ffd43b;
         }
 
+        /* Кнопки месенджерів */
         .cta-title {
             font-size: 1.1rem;
             margin-bottom: 15px;
@@ -137,7 +141,7 @@
 
 <div class="main-card">
     
-    <!-- Форма підбору квитків (без використання тегу form для уникнення блокувань браузера) -->
+    <!-- Блок з полями введення -->
     <div class="search-form">
         <div class="form-title">Швидкий підбір рейсу</div>
         
@@ -225,31 +229,25 @@
 
 <script>
     function buildMessage() {
-        const from = document.getElementById('from').value.trim() || 'Не вказано';
-        const to = document.getElementById('to').value.trim() || 'Не вказано';
+        const fromCity = document.getElementById('from').value.trim() || 'Не вказано';
+        const toCity = document.getElementById('to').value.trim() || 'Не вказано';
         const rawDate = document.getElementById('date').value || 'Не вказано';
-        const phone = document.getElementById('phone').value.trim() || 'Не вказано';
+        const clientPhone = document.getElementById('phone').value.trim() || 'Не вказано';
 
-        let displayDate = rawDate;
-        if (rawDate.includes('-')) {
-            const parts = rawDate.split('-');
-            if (parts.length === 3) {
-                displayDate = parts[2] + '.' + parts[1] + '.' + parts[0];
-            }
-        }
-
-        return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${from}\n• Куди: ${to}\n• Дата: ${displayDate}\n• Мій телефон: ${phone}`;
+        return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${fromCity}\n• Куди: ${toCity}\n• Дата: ${rawDate}\n• Мій телефон: ${clientPhone}`;
     }
 
-    // Головна жовта кнопка тепер працює безвідмовно через пряме посилання
+    // Головна жовта кнопка
     document.getElementById('mainActionBtn').addEventListener('click', function() {
         window.open('https://t.me' + encodeURIComponent(buildMessage()), '_blank');
     });
 
+    // Синя кнопка Telegram
     document.getElementById('tgPersonalBtn').addEventListener('click', function() {
         window.open('https://t.me' + encodeURIComponent(buildMessage()), '_blank');
     });
 
+    // Фіолетова кнопка Viber
     document.getElementById('viberPersonalBtn').addEventListener('click', function() {
         window.location.href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(buildMessage());
     });
