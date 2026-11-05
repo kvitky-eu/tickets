@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
-    <!-- Підключення сучасних іконок Font Awesome -->
+
+    <!-- ПІДКЛЮЧЕННЯ ОФІЦІЙНОГО ОНЛАЙН-ЧАТУ SMARTSUPP V3 -->
+    <script type="text/javascript">
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://smartsuppcdn.com';
+      s.parentNode.insertBefore(c,s);
+    })(document);
+    
+    // Налаштування вашого особистого кабінету та мови
+    smartsupp('chat:init', {
+        key: '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8',
+        lang: 'uk'
+    });
+    </script>
+    <noscript>Powered by <a href="https://smartsupp.com" target="_blank">Smartsupp</a></noscript>
+
+    <!-- Підключення сучасних іконок Font Awesome через офіційний CDN cdnjs -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -109,13 +128,6 @@
         .btn:active {
             transform: scale(0.98);
         }
-        /* Нова яскрава кнопка онлайн-чату */
-        .btn-chat {
-            background: linear-gradient(135deg, #ffd43b, #e5be2b);
-            color: #0f2b5c;
-            box-shadow: 0 4px 15px rgba(255, 212, 59, 0.3);
-            font-size: 1.1rem;
-        }
         .btn-tg {
             background: linear-gradient(135deg, #26a5e4, #1d8fd1);
             box-shadow: 0 4px 15px rgba(38, 165, 228, 0.2);
@@ -167,14 +179,8 @@
     </div>
 
     <!-- Варіанти відправки даних -->
-    <div class="cta-title">Зв'язатися з менеджером:</div>
+    <div class="cta-title">Надіслати заповнені дані в месенджер:</div>
     
-    <!-- Кнопка ПРЯМОГО ОНЛАЙН-ЧАТУ через вашу сторінку Smartsupp -->
-    <a href="https://smartsupp.com" target="_blank" class="btn btn-chat">
-        <i class="fa-solid fa-comments"></i>
-        <span>Написати в Онлайн-Чат</span>
-    </a>
-
     <a href="https://t.me" id="tgPersonalBtn" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Telegram</span>
