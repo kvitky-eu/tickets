@@ -61,9 +61,6 @@
         .input-group {
             margin-bottom: 15px;
         }
-        .input-group:last-of-type {
-            margin-bottom: 20px;
-        }
         .input-group label {
             display: block;
             font-size: 0.9rem;
@@ -116,11 +113,6 @@
         .btn:active {
             transform: scale(0.98);
         }
-        .btn-submit {
-            background: linear-gradient(135deg, #ffd43b, #e5be2b);
-            color: #0f2b5c;
-            margin-bottom: 0;
-        }
         .btn-tg {
             background: linear-gradient(135deg, #26a5e4, #1d8fd1);
             box-shadow: 0 4px 15px rgba(38, 165, 228, 0.2);
@@ -146,6 +138,7 @@
 
 <div class="main-card">
     
+    <!-- Блок форми з полями введення -->
     <div class="search-form">
         <div class="form-title">Швидкий підбір рейсу</div>
         
@@ -168,26 +161,24 @@
             <label for="phone">Ваш номер телефону:</label>
             <input type="tel" id="phone" placeholder="+380" value="+380">
         </div>
-        
-        <!-- Головна жовта кнопка -->
-        <button type="button" id="mainActionBtn" class="btn btn-submit">
-            <span>Надіслати заявку в Telegram</span>
-            <i class="fa-solid fa-paper-plane"></i>
-        </button>
     </div>
 
-    <div class="cta-title">Або надішліть заповнені дані в особисті:</div>
+    <!-- Варіанти відправки даних -->
+    <div class="cta-title">Надіслати заповнені дані в месенджер:</div>
     
+    <!-- Кнопка Telegram в особисті менеджера -->
     <button type="button" id="tgPersonalBtn" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Telegram</span>
     </button>
 
+    <!-- Кнопка Viber в особисті менеджера -->
     <button type="button" id="viberPersonalBtn" class="btn btn-viber">
         <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Viber</span>
     </button>
 
+    <!-- Кнопка прямого дзвінка -->
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
         <span>Зателефонувати: 099 567 47 03</span>
@@ -205,6 +196,7 @@
         const dateInput = document.getElementById('date');
         const phoneInput = document.getElementById('phone');
 
+        // Скидаємо попереднє червоне підсвічування помилок
         fromInput.classList.remove('error-field');
         toInput.classList.remove('error-field');
         dateInput.classList.remove('error-field');
@@ -219,31 +211,35 @@
         if (!toCity) { toInput.classList.add('error-field'); alert("Будь ласка, вкажіть місто прибуття!"); return null; }
         if (!rawDate) { dateInput.classList.add('error-field'); alert("Будь ласка, оберіть дату поїздки!"); return null; }
         
+        // Перевірка на недописаний номер телефону (+380 + 9 цифр = 13 символів)
         if (!clientPhone || clientPhone === "+380" || clientPhone.length < 13) {
             phoneInput.classList.add('error-field');
             alert("Будь ласка, введіть повний номер телефону (наприклад: +380991234567)!");
             return null;
         }
 
-        return 'Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ' + fromCity + '\n• Куди: ' + toCity + '\n• Дата: ' + rawDate + '\n• Мій телефон: ' + clientPhone;
+        // Повністю виправлене та чисте зклеювання рядків за допомогою оператора +
+        return "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + rawDate + "\n• Мій телефон: " + clientPhone;
     }
 
-    document.getElementById('mainActionBtn').addEventListener('click', function() {
-        const text = buildMessage();
-        if (text) window.open('https://t.me' + encodeURIComponent(text), '_blank');
-    });
-
+    // Синя кнопка Telegram
     document.getElementById('tgPersonalBtn').addEventListener('click', function() {
         const text = buildMessage();
-        if (text) window.open('https://t.me' + encodeURIComponent(text), '_blank');
+        if (text) {
+            window.open('https://t.me' + encodeURIComponent(text), '_blank');
+        }
     });
 
+    // Фіолетова кнопка Viber
     document.getElementById('viberPersonalBtn').addEventListener('click', function() {
         const text = buildMessage();
-        if (text) window.location.href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(text);
+        if (text) {
+            window.location.href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(text);
+        }
     });
 </script>
 
+<!-- Підключення віджета Smartsupp -->
 <script type="text/javascript">
     var _smartsupp = _smartsupp || {};
     _smartsupp.key = '4ca860b001099684dfad8085fc5f6a9e10ff6be1';
