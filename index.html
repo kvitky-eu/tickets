@@ -84,7 +84,7 @@
             border-color: #ffd43b;
         }
         
-        /* Кнопки надсилання форми */
+        /* Головна кнопка форми */
         .btn-submit {
             background: linear-gradient(135deg, #ffd43b, #e5be2b);
             color: #0f2b5c;
@@ -112,8 +112,8 @@
             color: #ffffff;
         }
         
-        /* Стилі для кнопок-месенджерів */
-        .btn-action {
+        /* Кнопки месенджерів у вигляді посилань */
+        .btn-link {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -125,11 +125,12 @@
             font-size: 1.05rem;
             font-weight: bold;
             color: white;
+            text-decoration: none;
             transition: transform 0.2s;
             border: none;
             cursor: pointer;
         }
-        .btn-action:active {
+        .btn-link:active {
             transform: scale(0.98);
         }
         .btn-tg {
@@ -144,7 +145,6 @@
             background: linear-gradient(135deg, #2ecc71, #27ae60);
             box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
             margin-bottom: 0;
-            text-decoration: none;
         }
         
         .footer {
@@ -215,9 +215,9 @@
             <input type="tel" id="phone" placeholder="+380" value="+380" required>
         </div>
         
-        <!-- Головна кнопка (надсилає дані непомітно у ваш чат-бот) -->
-        <button type="button" onclick="sendToBot()" class="btn-submit">
-            <span>Надіслати в чат-бот</span>
+        <!-- Головна кнопка форми -->
+        <button type="submit" class="btn-submit">
+            <span>Надіслати в чат-бот Telegram</span>
             <i class="fa-solid fa-robot"></i>
         </button>
     </form>
@@ -225,20 +225,20 @@
     <!-- Варіанти відправки через особисті повідомлення -->
     <div class="cta-title">Або надіслати заповнені дані в особисті:</div>
     
-    <!-- Надіслати заповнену форму в особистий Telegram менеджера -->
-    <button type="button" onclick="sendToPersonalTelegram()" class="btn-action btn-tg">
+    <!-- Кнопка Telegram в особисті -->
+    <a href="#" id="personalTgLink" target="_blank" class="btn-link btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Telegram</span>
-    </button>
+    </a>
 
-    <!-- Надіслати заповнену форму в особистий Viber менеджера -->
-    <button type="button" onclick="sendToPersonalViber()" class="btn-action btn-viber">
+    <!-- Кнопка Viber в особисті -->
+    <a href="#" id="personalViberLink" class="btn-link btn-viber">
         <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Viber</span>
-    </button>
+    </a>
 
     <!-- Звичайний дзвінок -->
-    <a href="tel:+380995674703" class="btn-action btn-phone">
+    <a href="tel:+380995674703" class="btn-link btn-phone">
         <i class="fa-solid fa-phone"></i>
         <span>Зателефонувати: 099 567 47 03</span>
     </a>
@@ -249,44 +249,39 @@
 </div>
 
 <script>
-    // Функція збору та перевірки даних з форми
-    function getFormData() {
+    // Функція генерації красивого тексту заявки з полів форми
+    function generateMessageText() {
         const from = document.getElementById('from').value.trim();
         const to = document.getElementById('to').value.trim();
         const date = document.getElementById('date').value;
         const phone = document.getElementById('phone').value.trim();
 
         if (!from || !to || !date || !phone || phone === "+380") {
-            alert("Будь ласка, заповніть усі поля форми перед відправкою!");
             return null;
         }
 
         const dateObj = new Date(date);
         const formattedDate = dateObj.toLocaleDateString('uk-UA');
 
-        return {
-            text: `🔔 Нова заявка на рейс:\n📌 Звідки: ${from}\n📍 Куди: ${to}\n📅 Дата: ${formattedDate}\n📞 Телефон: ${phone}`,
-            from, to, formattedDate, phone
-        };
+        return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${from}\n• Куди: ${to}\n• Дата: ${formattedDate}\n• Мій телефон: ${phone}`;
     }
 
-    // 1. ГОЛОВНА КНОПКА: Відправка в чат-бот Telegram
-    function sendToBot() {
-        const data = getFormData();
-        if (!data) return;
+    // ЛОГІКА ДЛЯ КНОПОК В ОСОБИСТІ МЕСЕНДЖЕРИ:
+    // Динамічно оновлюємо посилання месенджерів щоразу, як клієнт щось пише у формі
+    function updateMessengerLinks() {
+        const msg = generateMessageText();
+        const tgLink = document.getElementById('personalTgLink');
+        const viberLink = document.getElementById('personalViberLink');
 
-        const TELEGRAM_TOKEN = '9262418807:AAElDN9TRORbpEQrGzZO-I4lwhU-QQ4DiLs';
-        const TELEGRAM_CHAT_ID = '8172069744';
-        const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+        if (msg) {
+            // Якщо форму заповнено — підставляємо текст у посилання
+            tgLink.href = `https://t.me{encodeURIComponent(msg)}`;
+            viberLink.href = `viber://chat?number=%2B380995674703&draft=${encodeURIComponent(msg)}`;
+        } else {
+            // Якщо форма порожня — посилання просто відкривають чат за замовчуванням
+            tgLink.href = "https://t.me";
+            viberLink.href = "viber://chat?number=%2B380995674703";
+        }
+    }
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: data.text
-            })
-        })
-        .then(response => response.json())
-        .then(resData => {
-            if (resData.ok) {
+    // Слухаємо зміни у полях форми
