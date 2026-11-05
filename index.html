@@ -36,85 +36,53 @@
             width: 100%;
             max-width: 480px;
             border-radius: 20px;
-            padding: 25px 20px;
+            padding: 30px 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             border: 2px solid rgba(35, 82, 155, 0.6);
             text-align: center;
         }
-        
-        /* Стилі форми пошуку */
-        .search-form {
-            background: rgba(13, 36, 77, 0.85);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border: 1px solid #1e4b91;
-            text-align: left;
-        }
-        .form-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
+
+        .main-title {
+            font-size: 1.5rem;
+            font-weight: bold;
             color: #ffd43b;
-            text-align: center;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group:last-of-type {
-            margin-bottom: 20px;
-        }
-        .input-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: #a0b2cb;
-            margin-bottom: 5px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #23529b;
-            background-color: #163a75;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-        }
-        .input-group input:focus {
-            border-color: #ffd43b;
+            margin-bottom: 10px;
         }
 
-        /* Кнопки месенджерів */
+        .main-subtitle {
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        
         .cta-title {
             font-size: 1.1rem;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 600;
             color: #ffffff;
         }
+
+        /* Стилі кнопок швидкого зв'язку */
         .btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            padding: 14px;
-            margin-bottom: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
             border-radius: 12px;
             text-decoration: none;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: white;
-            transition: transform 0.2s;
+            transition: transform 0.1s;
             border: none;
             cursor: pointer;
         }
         .btn:active {
             transform: scale(0.98);
-        }
-        .btn-submit {
-            background: linear-gradient(135deg, #ffd43b, #e5be2b);
-            color: #0f2b5c;
-            margin-bottom: 0;
         }
         .btn-tg {
             background: linear-gradient(135deg, #26a5e4, #1d8fd1);
@@ -131,7 +99,7 @@
         }
         
         .footer {
-            margin-top: 25px;
+            margin-top: 30px;
             font-size: 0.85rem;
             color: #a0b2cb;
         }
@@ -141,82 +109,24 @@
 
 <div class="main-card">
     
-    <!-- Блок з полями введення -->
-    <div class="search-form">
-        <div class="form-title">Швидкий підбір рейсу</div>
-        
-        <div class="input-group">
-            <label for="from">Місто відправлення (Україна):</label>
-            <input type="text" id="from" placeholder="Наприклад: Київ, Львів" list="ukraine-cities">
-            <datalist id="ukraine-cities">
-                <option value="Київ">
-                <option value="Львів">
-                <option value="Одеса">
-                <option value="Дніпро">
-                <option value="Харків">
-                <option value="Запоріжжя">
-                <option value="Івано-Франківськ">
-                <option value="Тернопіль">
-                <option value="Чернівці">
-                <option value="Вінниця">
-                <option value="Луцьк">
-                <option value="Рівне">
-                <option value="Житомир">
-                <option value="Полтава">
-                <option value="Хмельницький">
-            </datalist>
-        </div>
-        
-        <div class="input-group">
-            <label for="to">Місто прибуття (Європа):</label>
-            <input type="text" id="to" placeholder="Наприклад: Варшава, Берлін" list="europe-cities">
-            <datalist id="europe-cities">
-                <option value="Варшава (Польща)">
-                <option value="Краків (Польща)">
-                <option value="Вроцлав (Польща)">
-                <option value="Берлін (Німеччина)">
-                <option value="Мюнхен (Німеччина)">
-                <option value="Прага (Чехія)">
-                <option value="Брно (Чехія)">
-                <option value="Будапешт (Угорщина)">
-                <option value="Відень (Австрія)">
-                <option value="Братислава (Словаччина)">
-                <option value="Вільнюс (Литва)">
-                <option value="Рига (Латвія)">
-                <option value="Париж (Франція)">
-                <option value="Рим (Італія)">
-            </datalist>
-        </div>
-        
-        <div class="input-group">
-            <label for="date">Дата поїздки:</label>
-            <input type="text" id="date" placeholder="Оберіть або введіть дату" onfocus="(this.type='date')" onblur="(this.value ? this.type='date' : this.type='text')">
-        </div>
+    <div class="main-title">Квитки на автобус</div>
+    <div class="main-subtitle">Комфортні та надійні пасажирські перевезення з України до Європи. Підберемо найкращий маршрут та дату!</div>
 
-        <div class="input-group">
-            <label for="phone">Ваш номер телефону:</label>
-            <input type="tel" id="phone" placeholder="+380" value="+380">
-        </div>
-        
-        <!-- Головна жовта кнопка -->
-        <button type="button" id="mainActionBtn" class="btn btn-submit">
-            <span>Надіслати заявку в Telegram</span>
-            <i class="fa-solid fa-paper-plane"></i>
-        </button>
-    </div>
-
-    <div class="cta-title">Або надішліть заповнені дані в особисті:</div>
+    <div class="cta-title">Натисніть на месенджер для швидкого замовлення:</div>
     
-    <button type="button" id="tgPersonalBtn" class="btn btn-tg">
-        <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
-        <span>Надіслати в особистий Telegram</span>
-    </button>
+    <!-- Кнопка Telegram -->
+    <a href="https://t.me." target="_blank" class="btn btn-tg">
+        <i class="fa-brands fa-telegram" style="font-size: 1.4rem;"></i>
+        <span>Замовити через Telegram</span>
+    </a>
 
-    <button type="button" id="viberPersonalBtn" class="btn btn-viber">
-        <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
-        <span>Надіслати в особистий Viber</span>
-    </button>
+    <!-- Кнопка Viber -->
+    <a href="viber://chat?number=%2B380995674703&draft=%D0%92%D1%96%D1%82%D0%B0%D1%8E%21+%D0%9C%D0%B5%D0%BD%D0%B5+%D1%96%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%82%D1%8C+%D0%BA%D0%B2%D0%B8%D1%82%D0%BE%D0%BA+%D0%BD%D0%B0+%D0%B0%D0%B2%D1%82%D0%BE%D0%B1%D1%83%D1%81." class="btn btn-viber">
+        <i class="fa-brands fa-viber" style="font-size: 1.4rem;"></i>
+        <span>Замовити через Viber</span>
+    </a>
 
+    <!-- Кнопка прямого дзвінка -->
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
         <span>Зателефонувати: 099 567 47 03</span>
@@ -226,32 +136,6 @@
         Бронювання безкоштовне • Оплата при посадці
     </div>
 </div>
-
-<script>
-    function buildMessage() {
-        const fromCity = document.getElementById('from').value.trim() || 'Не вказано';
-        const toCity = document.getElementById('to').value.trim() || 'Не вказано';
-        const rawDate = document.getElementById('date').value || 'Не вказано';
-        const clientPhone = document.getElementById('phone').value.trim() || 'Не вказано';
-
-        return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${fromCity}\n• Куди: ${toCity}\n• Дата: ${rawDate}\n• Мій телефон: ${clientPhone}`;
-    }
-
-    // Головна жовта кнопка
-    document.getElementById('mainActionBtn').addEventListener('click', function() {
-        window.open('https://t.me' + encodeURIComponent(buildMessage()), '_blank');
-    });
-
-    // Синя кнопка Telegram
-    document.getElementById('tgPersonalBtn').addEventListener('click', function() {
-        window.open('https://t.me' + encodeURIComponent(buildMessage()), '_blank');
-    });
-
-    // Фіолетова кнопка Viber
-    document.getElementById('viberPersonalBtn').addEventListener('click', function() {
-        window.location.href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(buildMessage());
-    });
-</script>
 
 </body>
 </html>
