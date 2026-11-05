@@ -5,21 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
 
-    <!-- ПОВНІСТЮ ВИПРАВЛЕНИЙ ТА ВІДНОВЛЕНИЙ КОД ВІДЖЕТА SMARTSUPP -->
+    <!-- Офіційний оновлений скрипт онлайн-чату Smartsupp V3 -->
     <script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8';
-    _smartsupp.lang = 'uk'; // Примусово вмикаємо українську мову
     window.smartsupp||(function(d) {
       var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-      s=d.getElementsByTagName('script');c=d.createElement('script');
-      c.type='text/javascript';c.charset='utf-8';c.async=true;
-      c.src='https://smartsuppchat.com;
+      s=d.getElementsByTagName('script');if(s.length>0){s=s[0]}else{s=d.getElementsByTagName('head')[0].appendChild(d.createElement('script'))}
+      c=d.createElement('script');c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://smartsuppcdn.com'; // Нова надійна CDN-адреса завантаження чату
+      s.parentNode.insertBefore(c,s);
     })(document);
+    smartsupp('html:apply', document);
+    smartsupp('chat:init', {
+        key: '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8', // Твій особистий перевірений ключ чату
+        lang: 'uk', // Мова віджета — повністю українська
+        position: 'fixed'
+    });
     </script>
-    <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 
-    <!-- Підключення іконок Font Awesome через офіційний надійний CDN cdnjs -->
+    <!-- Підключення іконок Font Awesome -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -43,6 +46,7 @@
             padding: 20px;
         }
 
+        /* Напівпрозорий блок-контейнер поверх фону */
         .main-card {
             background: rgba(22, 58, 117, 0.94); 
             backdrop-filter: blur(10px); 
@@ -56,6 +60,7 @@
             text-align: center;
         }
         
+        /* Стилі форми пошуку */
         .search-form {
             background: rgba(13, 36, 77, 0.85);
             padding: 20px;
@@ -95,6 +100,7 @@
             border-color: #ffd43b;
         }
 
+        /* Кнопки месенджерів */
         .cta-title {
             font-size: 1.1rem;
             margin-bottom: 15px;
@@ -146,6 +152,7 @@
 
 <div class="main-card">
     
+    <!-- Блок форми з полями введення -->
     <div class="search-form">
         <div class="form-title">Швидкий підбір рейсу</div>
         
@@ -170,6 +177,7 @@
         </div>
     </div>
 
+    <!-- Варіанти відправки даних -->
     <div class="cta-title">Надіслати заповнені дані в месенджер:</div>
     
     <a href="https://t.me" id="tgPersonalBtn" target="_blank" class="btn btn-tg">
@@ -182,9 +190,10 @@
         <span>Надіслати в особистий Viber</span>
     </a>
 
+    <!-- Кнопка прямого дзвінка -->
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
-        <span>Зателефонувати: 099 567 47 03</span>
+        <span>Зателевонувати: 099 567 47 03</span>
     </a>
 
     <div class="footer">
@@ -199,17 +208,8 @@
         var rawDate = document.getElementById('textDate').value || '...';
         var clientPhone = document.getElementById('textPhone').value.trim() || '+380';
 
-        var cleanDate = rawDate;
-        if (rawDate.indexOf('-') !== -1) {
-            var parts = rawDate.split('-');
-            if (parts.length === 3) {
-                // ПРАВИЛЬНЕ ПЕРЕВЕРТАННЯ ДАТИ У ФОРМАТ ДД.ММ.РРРР
-                cleanDate = parts[2] + '.' + parts[1] + '.' + parts[0];
-            }
-        }
-
-        var tgMessage = "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + cleanDate + "\n• Мій телефон: " + clientPhone;
-        var viberMessage = "Рейс: " + fromCity + " - " + toCity + ". Дата: " + cleanDate + ". Тел: " + clientPhone;
+        var tgMessage = "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + rawDate + "\n• Мій телефон: " + clientPhone;
+        var viberMessage = "Рейс: " + fromCity + " - " + toCity + ". Дата: " + rawDate + ". Тел: " + clientPhone;
 
         document.getElementById('tgPersonalBtn').href = 'https://t.me?text=' + encodeURIComponent(tgMessage);
         document.getElementById('viberPersonalBtn').href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(viberMessage);
