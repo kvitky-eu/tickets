@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
-    <!-- Підключаємо сучасні іконки Font Awesome -->
+    <!-- Підключення Font Awesome через офіційний CDN cdnjs -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -15,13 +15,12 @@
         }
         
         body {
-            /* Змінюємо налаштування, щоб картинка була зжатою до оригінальних пропорцій */
             background-image: url('bg.jpg'); 
-            background-size: contain; /* Стискає картинку, показуючи її повністю без розтягування */
-            background-position: center top; /* Вирівнюємо по центру вгорі */
-            background-repeat: repeat; /* Повторює фон, якщо екран більший за малюнок */
-            background-attachment: fixed; /* Фон залишається нерухомим */
-            background-color: #0f2b5c; /* Основний колір фону сайту */
+            background-size: contain; 
+            background-position: center top; 
+            background-repeat: repeat; 
+            background-attachment: fixed; 
+            background-color: #0f2b5c; 
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -31,8 +30,8 @@
 
         /* Напівпрозорий блок-контейнер поверх фону */
         .main-card {
-            background: rgba(22, 58, 117, 0.94); /* Трохи щільніший колір для ідеального читання тексту */
-            backdrop-filter: blur(10px); /* Гарне розмиття фону за карткою */
+            background: rgba(22, 58, 117, 0.94); 
+            backdrop-filter: blur(10px); 
             -webkit-backdrop-filter: blur(10px);
             width: 100%;
             max-width: 480px;
@@ -154,43 +153,88 @@
 </head>
 <body>
 
-<!-- Картка з формою та кнопками поверх стиснутого фону -->
 <div class="main-card">
     
-    <!-- Форма підбору квитків -->
-    <form class="search-form" id="busSearchForm">
+    <!-- Форма підбору квитків (надсилає дані на valval2701@gmail.com через FormSubmit) -->
+    <form class="search-form" id="busSearchForm" action="https://formsubmit.co" method="POST">
         <div class="form-title">Швидкий підбір рейсу</div>
+        
+        <!-- Приховані налаштування для сервісу відправки пошти -->
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="Нова заявка на підбір рейсу!">
+        <input type="hidden" name="_template" value="table">
         
         <div class="input-group">
             <label for="from">Місто відправлення (Україна):</label>
-            <input type="text" id="from" placeholder="Наприклад: Київ, Львів" required>
+            <input type="text" id="from" name="Звідки (Україна)" placeholder="Наприклад: Київ, Львів" list="ukraine-cities" required>
+            <datalist id="ukraine-cities">
+                <option value="Київ">
+                <option value="Львів">
+                <option value="Одеса">
+                <option value="Дніпро">
+                <option value="Харків">
+                <option value="Запоріжжя">
+                <option value="Івано-Франківськ">
+                <option value="Тернопіль">
+                <option value="Чернівці">
+                <option value="Вінниця">
+                <option value="Луцьк">
+                <option value="Рівне">
+                <option value="Житомир">
+                <option value="Полтава">
+                <option value="Хмельницький">
+            </datalist>
         </div>
         
         <div class="input-group">
             <label for="to">Місто прибуття (Європа):</label>
-            <input type="text" id="to" placeholder="Наприклад: Варшава, Берлін" required>
+            <input type="text" id="to" name="Куди (Європа)" placeholder="Наприклад: Варшава, Берлін" list="europe-cities" required>
+            <datalist id="europe-cities">
+                <option value="Варшава (Польща)">
+                <option value="Краків (Польща)">
+                <option value="Вроцлав (Польща)">
+                <option value="Берлін (Німеччина)">
+                <option value="Мюнхен (Німеччина)">
+                <option value="Прага (Чехія)">
+                <option value="Брно (Чехія)">
+                <option value="Будапешт (Угорщина)">
+                <option value="Відень (Австрія)">
+                <option value="Братислава (Словаччина)">
+                <option value="Вільнюс (Литва)">
+                <option value="Рига (Латвія)">
+                <option value="Париж (Франція)">
+                <option value="Рим (Італія)">
+            </datalist>
         </div>
         
         <div class="input-group">
             <label for="date">Дата поїздки:</label>
-            <input type="date" id="date" required>
+            <input type="date" id="date" name="Дата поїздки" required>
+        </div>
+
+        <!-- Поле телефону клієнта для зв'язку -->
+        <div class="input-group">
+            <label for="phone">Ваш номер телефону:</label>
+            <input type="tel" id="phone" name="Телефон клієнта" placeholder="+380" value="+380" required>
         </div>
         
         <button type="submit" class="btn-submit">
-            <span>Залишити заявку в чат</span>
-            <i class="fa-solid fa-arrow-right"></i>
+            <span>Надіслати заявку</span>
+            <i class="fa-solid fa-envelope"></i>
         </button>
     </form>
 
     <!-- Блок швидкого зв'язку -->
     <div class="cta-title">Або забронюйте напряму через месенджери:</div>
     
+    <!-- Пряме посилання на Telegram за номером телефону -->
     <a href="https://t.me" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Написати в Telegram</span>
     </a>
 
-    <a href="viber://chat?number=%2B380995674703" class="btn btn-viber">
+    <!-- Пряме посилання на Viber -->
+    <a href="viber://chat?number=%2B380995674703" target="_blank" class="btn btn-viber">
         <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
         <span>Написати в Viber</span>
     </a>
@@ -205,24 +249,6 @@
     </div>
 </div>
 
-<!-- Скрипт обробки форми -->
-<script>
-    document.getElementById('busSearchForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const fromCity = document.getElementById('from').value;
-        const toCity = document.getElementById('to').value;
-        const travelDate = document.getElementById('date').value;
-        
-        const dateObj = new Date(travelDate);
-        const formattedDate = dateObj.toLocaleDateString('uk-UA');
-        
-        const textMessage = `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${fromCity}\n• Куди: ${toCity}\n• Дата: ${formattedDate}`;
-        const encodedText = encodeURIComponent(textMessage);
-        
-        window.location.href = `viber://chat?number=%2B380995674703&draft=${encodedText}`;
-    });
-</script>
-
 </body>
 </html>
+
