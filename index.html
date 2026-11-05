@@ -5,18 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
 
-    <!-- Офіційний код Smartsupp з командою примусового показу віджета -->
+    <!-- ПОВНІСТЮ ВИПРАВЛЕНИЙ ТА ВІДНОВЛЕНИЙ КОД ВІДЖЕТА SMARTSUPP -->
     <script type="text/javascript">
     var _smartsupp = _smartsupp || {};
     _smartsupp.key = '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8';
-    _smartsupp.lang = 'uk'; // Українська мова
-    
-    // Пряма команда: показувати віджет завжди, ігноруючи примхи хостингу
-    _smartsupp.display = {
-        chatBox: true,
-        hideOfflineChat: false
-    };
-
+    _smartsupp.lang = 'uk'; // Примусово вмикаємо українську мову
     window.smartsupp||(function(d) {
       var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
       s=d.getElementsByTagName('script');c=d.createElement('script');
@@ -24,9 +17,9 @@
       c.src='https://smartsuppchat.com;
     })(document);
     </script>
-    <noscript>Powered by <a href="https://smartsupp.com" target="_blank">Smartsupp</a></noscript>
+    <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 
-    <!-- Підключення іконок Font Awesome -->
+    <!-- Підключення іконок Font Awesome через офіційний надійний CDN cdnjs -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -101,6 +94,52 @@
         .input-group input:focus {
             border-color: #ffd43b;
         }
+
+        .cta-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .btn-tg {
+            background: linear-gradient(135deg, #26a5e4, #1d8fd1);
+            box-shadow: 0 4px 15px rgba(38, 165, 228, 0.2);
+        }
+        .btn-viber {
+            background: linear-gradient(135deg, #7360f2, #5945d6);
+            box-shadow: 0 4px 15px rgba(115, 96, 242, 0.2);
+        }
+        .btn-phone {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+            margin-bottom: 0;
+        }
+        
+        .footer {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #a0b2cb;
+        }
     </style>
 </head>
 <body>
@@ -131,7 +170,6 @@
         </div>
     </div>
 
-    <!-- Варіанти відправки даних -->
     <div class="cta-title">Надіслати заповнені дані в месенджер:</div>
     
     <a href="https://t.me" id="tgPersonalBtn" target="_blank" class="btn btn-tg">
@@ -165,6 +203,7 @@
         if (rawDate.indexOf('-') !== -1) {
             var parts = rawDate.split('-');
             if (parts.length === 3) {
+                // ПРАВИЛЬНЕ ПЕРЕВЕРТАННЯ ДАТИ У ФОРМАТ ДД.ММ.РРРР
                 cleanDate = parts[2] + '.' + parts[1] + '.' + parts[0];
             }
         }
