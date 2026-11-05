@@ -151,45 +151,12 @@
         
         <div class="input-group">
             <label for="from">Місто відправлення (Україна):</label>
-            <input type="text" id="from" placeholder="Наприклад: Київ, Львів" list="ukraine-cities">
-            <datalist id="ukraine-cities">
-                <option value="Київ">
-                <option value="Львів">
-                <option value="Одеса">
-                <option value="Дніпро">
-                <option value="Харків">
-                <option value="Запоріжжя">
-                <option value="Івано-Франківськ">
-                <option value="Тернопіль">
-                <option value="Чернівці">
-                <option value="Вінниця">
-                <option value="Луцьк">
-                <option value="Рівне">
-                <option value="Житомир">
-                <option value="Полтава">
-                <option value="Хмельницький">
-            </datalist>
+            <input type="text" id="from" placeholder="Наприклад: Київ, Львів">
         </div>
         
         <div class="input-group">
             <label for="to">Місто прибуття (Європа):</label>
-            <input type="text" id="to" placeholder="Наприклад: Варшава, Берлін" list="europe-cities">
-            <datalist id="europe-cities">
-                <option value="Варшава (Польща)">
-                <option value="Краків (Польща)">
-                <option value="Вроцлав (Польща)">
-                <option value="Берлін (Німеччина)">
-                <option value="Мюнхен (Німеччина)">
-                <option value="Прага (Чехія)">
-                <option value="Брно (Чехія)">
-                <option value="Будапешт (Угорщина)">
-                <option value="Відень (Австрія)">
-                <option value="Братислава (Словаччина)">
-                <option value="Вільнюс (Литва)">
-                <option value="Рига (Латвія)">
-                <option value="Париж (Франція)">
-                <option value="Рим (Італія)">
-            </datalist>
+            <input type="text" id="to" placeholder="Наприклад: Варшава, Берлін">
         </div>
         
         <div class="input-group">
@@ -202,6 +169,7 @@
             <input type="tel" id="phone" placeholder="+380" value="+380">
         </div>
         
+        <!-- Головна жовта кнопка -->
         <button type="button" id="mainActionBtn" class="btn btn-submit">
             <span>Надіслати заявку в Telegram</span>
             <i class="fa-solid fa-paper-plane"></i>
@@ -273,3 +241,17 @@
     document.getElementById('viberPersonalBtn').addEventListener('click', function() {
         const text = buildMessage();
         if (text) window.location.href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(text);
+    });
+</script>
+
+<script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '4ca860b001099684dfad8085fc5f6a9e10ff6be1';
+    window.smartsupp||(function(d){
+      var s=d.createElement('script');s.type='text/javascript';s.charset='utf-8';
+      s.src='https://smartsuppchat.com;
+    })(document);
+</script>
+
+</body>
+</html>
