@@ -234,7 +234,7 @@
 
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
-        <span>Зателефонувати: 099 567 47 03</span>
+        <span>Зателевонувати: 099 567 47 03</span>
     </a>
 
     <div class="footer">
@@ -246,7 +246,6 @@
     document.getElementById('tgBusForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // НАЛАШТУВАННЯ TELEGRAM:
         const TELEGRAM_TOKEN = '9262418807:AAElDN9TRORbpEQrGzZO-I4lwhU-QQ4DiLs';
         const TELEGRAM_CHAT_ID = '8172069744';
 
@@ -260,31 +259,31 @@
 
         const messageText = `🔔 Нова заявка на рейс:\n📌 Звідки: ${from}\n📍 Куди: ${to}\n📅 Дата: ${formattedDate}\n📞 Телефон: ${phone}`;
 
-        const url = `https://telegram.org{TELEGRAM_TOKEN}/sendMessage`;
+        // Використовуємо надійний CORS-проксі для обходу блокування прямого запиту до Telegram
+        const url = `https://allorigins.win{encodeURIComponent(`https://telegram.org{TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(messageText)}`)}`;
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: messageText
-            })
-        })
+        fetch(url)
         .then(response => {
             if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network error');
+        })
+        .then(data => {
+            // Перевіряємо відповідь від самого Telegram всередині проксі
+            if (data.contents && data.contents.includes('"ok":true')) {
                 alert('Дякуємо! Заявку успішно надіслано.');
                 document.getElementById('tgBusForm').reset();
                 document.getElementById('phone').value = '+380';
             } else {
-                alert('Помилка відправки. Спробуйте скористатися кнопками месенджерів нижче.');
+                alert('Будь ласка, спочатку активуйте вашого бота в Telegram (натисніть Start у чаті з ним), а потім повторіть спробу.');
             }
         })
         .catch(error => {
-            alert('Помилка мережі. Спробуйте пізніше.');
+            alert('Помилка відправки через мережу. Спробуйте скористатися кнопками швидкого зв\'язку нижче.');
         });
     });
 </script>
 
 </body>
 </html>
-
