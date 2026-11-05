@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
 
-    <!-- Ваш оригінальний код Smartsupp з файлу, вставлений символ у символ -->
+    <!-- ПОВНІСТЮ ВИПРАВЛЕНИЙ ТА ВІДНОВЛЕНИЙ КОД ВІДЖЕТА SMARTSUPP -->
     <script type="text/javascript">
     var _smartsupp = _smartsupp || {};
     _smartsupp.key = '6a53daf7200ae6410ea5bca1d84a287c2f8ac7e8';
+    _smartsupp.lang = 'uk'; // Примусово вмикаємо українську мову
     window.smartsupp||(function(d) {
       var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
       s=d.getElementsByTagName('script');c=d.createElement('script');
@@ -16,9 +17,9 @@
       c.src='https://smartsuppchat.com;
     })(document);
     </script>
-    <noscript>Powered by <a href="https://smartsupp.com" target="_blank">Smartsupp</a></noscript>
+    <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 
-    <!-- Підключення іконок Font Awesome -->
+    <!-- Підключення іконок Font Awesome через офіційний надійний CDN cdnjs -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -198,8 +199,17 @@
         var rawDate = document.getElementById('textDate').value || '...';
         var clientPhone = document.getElementById('textPhone').value.trim() || '+380';
 
-        var tgMessage = "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + rawDate + "\n• Мій телефон: " + clientPhone;
-        var viberMessage = "Рейс: " + fromCity + " - " + toCity + ". Дата: " + rawDate + ". Тел: " + clientPhone;
+        var cleanDate = rawDate;
+        if (rawDate.indexOf('-') !== -1) {
+            var parts = rawDate.split('-');
+            if (parts.length === 3) {
+                // ПРАВИЛЬНЕ ПЕРЕВЕРТАННЯ ДАТИ У ФОРМАТ ДД.ММ.РРРР
+                cleanDate = parts[2] + '.' + parts[1] + '.' + parts[0];
+            }
+        }
+
+        var tgMessage = "Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: " + fromCity + "\n• Куди: " + toCity + "\n• Дата: " + cleanDate + "\n• Мій телефон: " + clientPhone;
+        var viberMessage = "Рейс: " + fromCity + " - " + toCity + ". Дата: " + cleanDate + ". Тел: " + clientPhone;
 
         document.getElementById('tgPersonalBtn').href = 'https://t.me?text=' + encodeURIComponent(tgMessage);
         document.getElementById('viberPersonalBtn').href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(viberMessage);
