@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квитки на автобус з України до Європи</title>
-    <!-- Підключення Font Awesome через офіційний CDN cdnjs -->
+    <!-- Підключення сучасних іконок Font Awesome -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -83,37 +83,15 @@
         .input-group input:focus {
             border-color: #ffd43b;
         }
-        
-        /* Головна кнопка форми */
-        .btn-submit {
-            background: linear-gradient(135deg, #ffd43b, #e5be2b);
-            color: #0f2b5c;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-submit:active {
-            transform: scale(0.98);
-        }
 
+        /* Кнопки месенджерів */
         .cta-title {
             font-size: 1.1rem;
             margin-bottom: 15px;
             font-weight: 600;
             color: #ffffff;
         }
-        
-        /* Кнопки месенджерів у вигляді посилань */
-        .btn-link {
+        .btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -122,16 +100,21 @@
             padding: 14px;
             margin-bottom: 12px;
             border-radius: 12px;
+            text-decoration: none;
             font-size: 1.05rem;
             font-weight: bold;
             color: white;
-            text-decoration: none;
             transition: transform 0.2s;
             border: none;
             cursor: pointer;
         }
-        .btn-link:active {
+        .btn:active {
             transform: scale(0.98);
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #ffd43b, #e5be2b);
+            color: #0f2b5c;
+            margin-bottom: 0;
         }
         .btn-tg {
             background: linear-gradient(135deg, #26a5e4, #1d8fd1);
@@ -158,7 +141,7 @@
 
 <div class="main-card">
     
-    <!-- Головна форма пошуку -->
+    <!-- Форма підбору квитків -->
     <form class="search-form" id="busSearchForm">
         <div class="form-title">Швидкий підбір рейсу</div>
         
@@ -215,30 +198,29 @@
             <input type="tel" id="phone" placeholder="+380" value="+380" required>
         </div>
         
-        <!-- Головна кнопка форми -->
-        <button type="submit" class="btn-submit">
-            <span>Надіслати в чат-бот Telegram</span>
-            <i class="fa-solid fa-robot"></i>
+        <!-- Головна жовта кнопка форми -->
+        <button type="submit" class="btn btn-submit">
+            <span>Оформити заявку в Telegram</span>
+            <i class="fa-solid fa-paper-plane"></i>
         </button>
     </form>
 
-    <!-- Варіанти відправки через особисті повідомлення -->
-    <div class="cta-title">Або надіслати заповнені дані в особисті:</div>
+    <!-- Варіанти відправки -->
+    <div class="cta-title">Або надішліть заповнені дані в особисті:</div>
     
-    <!-- Кнопка Telegram в особисті -->
-    <a href="#" id="personalTgLink" target="_blank" class="btn-link btn-tg">
+    <!-- Кнопка Telegram в особисті менеджера -->
+    <button type="button" id="tgPersonalBtn" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Telegram</span>
-    </a>
+    </button>
 
-    <!-- Кнопка Viber в особисті -->
-    <a href="#" id="personalViberLink" class="btn-link btn-viber">
+    <!-- Кнопка Viber в особисті менеджера -->
+    <button type="button" id="viberPersonalBtn" class="btn btn-viber">
         <i class="fa-brands fa-viber" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Viber</span>
-    </a>
+    </button>
 
-    <!-- Звичайний дзвінок -->
-    <a href="tel:+380995674703" class="btn-link btn-phone">
+    <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
         <span>Зателефонувати: 099 567 47 03</span>
     </a>
@@ -249,14 +231,15 @@
 </div>
 
 <script>
-    // Функція генерації красивого тексту заявки з полів форми
-    function generateMessageText() {
+    // Функція збору та генерації тексту заявки
+    function checkAndGetText() {
         const from = document.getElementById('from').value.trim();
         const to = document.getElementById('to').value.trim();
         const date = document.getElementById('date').value;
         const phone = document.getElementById('phone').value.trim();
 
         if (!from || !to || !date || !phone || phone === "+380") {
+            alert("Будь ласка, спочатку заповніть усі поля форми!");
             return null;
         }
 
@@ -266,22 +249,28 @@
         return `Вітаю! Бажаю залишити заявку на підбір рейсу:\n• Звідки: ${from}\n• Куди: ${to}\n• Дата: ${formattedDate}\n• Мій телефон: ${phone}`;
     }
 
-    // ЛОГІКА ДЛЯ КНОПОК В ОСОБИСТІ МЕСЕНДЖЕРИ:
-    // Динамічно оновлюємо посилання месенджерів щоразу, як клієнт щось пише у формі
-    function updateMessengerLinks() {
-        const msg = generateMessageText();
-        const tgLink = document.getElementById('personalTgLink');
-        const viberLink = document.getElementById('personalViberLink');
+    // 1. Обробка головної жовтої кнопки (відкриває Telegram з текстом)
+    document.getElementById('busSearchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const text = checkAndGetText();
+        if (!text) return;
+        window.open(`https://t.me{encodeURIComponent(text)}`, '_blank');
+    });
 
-        if (msg) {
-            // Якщо форму заповнено — підставляємо текст у посилання
-            tgLink.href = `https://t.me{encodeURIComponent(msg)}`;
-            viberLink.href = `viber://chat?number=%2B380995674703&draft=${encodeURIComponent(msg)}`;
-        } else {
-            // Якщо форма порожня — посилання просто відкривають чат за замовчуванням
-            tgLink.href = "https://t.me";
-            viberLink.href = "viber://chat?number=%2B380995674703";
-        }
-    }
+    // 2. Нижня синя кнопка «Надіслати в особистий Telegram»
+    document.getElementById('tgPersonalBtn').addEventListener('click', function() {
+        const text = checkAndGetText();
+        if (!text) return;
+        window.open(`https://t.me{encodeURIComponent(text)}`, '_blank');
+    });
 
-    // Слухаємо зміни у полях форми
+    // 3. Нижня фіолетова кнопка «Надіслати в особистий Viber»
+    document.getElementById('viberPersonalBtn').addEventListener('click', function() {
+        const text = checkAndGetText();
+        if (!text) return;
+        window.location.href = `viber://chat?number=%2B380995674703&draft=${encodeURIComponent(text)}`;
+    });
+</script>
+
+</body>
+</html>
