@@ -109,6 +109,13 @@
         .btn:active {
             transform: scale(0.98);
         }
+        /* Нова яскрава кнопка онлайн-чату */
+        .btn-chat {
+            background: linear-gradient(135deg, #ffd43b, #e5be2b);
+            color: #0f2b5c;
+            box-shadow: 0 4px 15px rgba(255, 212, 59, 0.3);
+            font-size: 1.1rem;
+        }
         .btn-tg {
             background: linear-gradient(135deg, #26a5e4, #1d8fd1);
             box-shadow: 0 4px 15px rgba(38, 165, 228, 0.2);
@@ -134,6 +141,7 @@
 
 <div class="main-card">
     
+    <!-- Блок форми з полями введення -->
     <div class="search-form">
         <div class="form-title">Швидкий підбір рейсу</div>
         
@@ -158,8 +166,15 @@
         </div>
     </div>
 
-    <div class="cta-title">Надіслати заповнені дані в месенджер:</div>
+    <!-- Варіанти відправки даних -->
+    <div class="cta-title">Зв'язатися з менеджером:</div>
     
+    <!-- Кнопка ПРЯМОГО ОНЛАЙН-ЧАТУ через вашу сторінку Smartsupp -->
+    <a href="https://smartsupp.com" target="_blank" class="btn btn-chat">
+        <i class="fa-solid fa-comments"></i>
+        <span>Написати в Онлайн-Чат</span>
+    </a>
+
     <a href="https://t.me" id="tgPersonalBtn" target="_blank" class="btn btn-tg">
         <i class="fa-brands fa-telegram" style="font-size: 1.3rem;"></i>
         <span>Надіслати в особистий Telegram</span>
@@ -170,6 +185,7 @@
         <span>Надіслати в особистий Viber</span>
     </a>
 
+    <!-- Кнопка прямого дзвінка -->
     <a href="tel:+380995674703" class="btn btn-phone">
         <i class="fa-solid fa-phone"></i>
         <span>Зателефонувати: 099 567 47 03</span>
@@ -194,19 +210,6 @@
         document.getElementById('viberPersonalBtn').href = 'viber://chat?number=%2B380995674703&draft=' + encodeURIComponent(viberMessage);
     }
     updateLinks();
-</script>
-
-<!-- Залізобетонний онлайн-чат Tawk.to, повністю налаштований українською мовою -->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://tawk.to';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
 </script>
 
 </body>
